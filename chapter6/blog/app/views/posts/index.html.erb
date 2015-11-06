@@ -1,0 +1,8 @@
+<% @posts.each do |post| %>
+  <div class="blog-post">
+    <h2 class="blog-post-title"><%= post.title %></h2>
+    <p class="blog-post-meta"><%= post.created_at.strftime("%Y-%m-%d %H:%M")  %></p>
+    <%= truncate(post.text, length: 100) %>
+    <a class="btn btn-default pull-right" href="<%= show_post_path(post) %>">See More</a>
+  </div>
+<% end %>

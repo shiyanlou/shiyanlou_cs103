@@ -1,0 +1,59 @@
+<div class="blog-post">
+  <h2 class="blog-post-title"><%= @post.title %></h2>
+  <p class="blog-post-meta"><%= @post.created_at.strftime("%Y-%m-%d %H:%M")  %></p>
+  <%= @post.text %>
+</div>
+<h4>Recent Comments</h4>
+<hr />
+<div>
+  <% @post.comments.each do |comment| %>
+  <div class="row">
+    <div class="col-sm-10">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <i class="fa fa-user"></i>
+          <strong><%= comment.author %></strong> <span class="text-muted"><%= comment.created_at.strftime("%Y-%m-%d %H:%M")  %></span>
+          <% if logged_in? %>
+          <%= link_to comment_path(comment),
+                      :method => :delete,
+                      :class => "btn btn-xs btn-danger pull-right" do %>
+          <i class="fa fa-trash-o"></i>
+          <% end %>
+          <% end %>
+        </div>
+        <div class="panel-body">
+          <%= comment.content %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+<h4>Create New Commet</h4>
+<hr />
+<%= form_for @comment, url: create_post_comment_path, :html => { :class => "form-horizontal comment" } do |f| %>
+
+  <div class="form-group">
+    <%= f.label :author, :class => 'col-sm-1 control-label' %>
+    <div class="controls">
+      <div class="col-sm-9">
+      <%= f.text_field :author, :class => 'form-control' %>
+    </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :content, :class => 'col-sm-1 control-label' %>
+    <div class="controls">
+      <div class="col-sm-9">
+        <%= f.text_area :content, :class => 'form-control', :row => 12  %>
+    </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <div class="col-sm-7">
+  <%= f.submit "Comment", :class => 'btn btn-success' %>
+  </div>
+  </div>
+<% end %>
+
